@@ -1,0 +1,59 @@
+name: Deploy MkDocs to GitHub Pages
+
+on:
+  push:
+    branches:
+      - 18.0
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install MkDocs Material and mike
+        run: pip install mkdocs-material mike
+
+      - name: Build docs structure from READMEs
+        run: |
+          mkdir -p docs
+          if [ -f index.md ]; then
+            cp index.md docs/index.md
+          else
+            cp README.md docs/index.md
+          fi
+          for dir in */ ; do
+            if [ -f "${dir}README.md" ]; then
+              name=$(basename "$dir")
+              cp "${dir}README.md" "docs/${name}.md"
+            fi
+            if [ -d "${dir}static" ]; then
+              mkdir -p "docs/${dir}static"
+              cp -r "${dir}static/." "docs/${dir}static/"
+            fi
+          done
+
+      - name: Configure git for mike
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git fetch origin gh-pages || true
+
+      - name: Deploy version with mike
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+          mike deploy --push --update-aliases "$VERSION" latest
+          mike set-default --push latest
