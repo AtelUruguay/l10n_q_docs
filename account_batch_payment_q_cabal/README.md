@@ -11,7 +11,7 @@ Soporta dos configuraciones diferentes:
 ## Formato del Archivo
 
 El archivo generado contiene únicamente líneas de detalle (sin encabezado ni línea de cierre).
-Cada línea tiene una longitud de 128 caracteres.
+Cada línea tiene una longitud de 127 caracteres.
 
 ### Estructura de cada línea
 
@@ -21,16 +21,16 @@ Cada línea tiene una longitud de 128 caracteres.
 | 5-15 | 11 | Número de comercio | PMSA: 28490120004, CMSA: 28437937007 |
 | 16 | 1 | Código de moneda | N=Pesos, U=Dólares |
 | 17-32 | 16 | Número de tarjeta | Del afiliado |
-| 33-41 | 9 | Nro. socio institución | PMSA: Matrícula/Módulo, CMSA: Contrato |
+| 33-41 | 9 | Nro. socio institución | PMSA: Matrícula/Módulo, CMSA: Contrato (numérico, ceros a la izquierda) |
 | 42-52 | 11 | Importe a debitar | Con 2 decimales implícitos |
 | 53-58 | 6 | Fecha de proceso | DDMMAA |
 | 59-62 | 4 | Número de cuota | MMAA |
-| 63-74 | 12 | ID Factura | Número de factura |
-| 75 | 1 | Aplica devolución IVA | 1=Sí, 0=No |
-| 76-90 | 15 | Importe gravado básico | Con 2 decimales implícitos |
-| 91-105 | 15 | Importe gravado mínimo | Con 2 decimales implícitos |
-| 106-120 | 15 | Importe devolución IVA | Con 2 decimales implícitos |
-| 121-128 | 8 | Filler | Espacios |
+| 63-73 | 11 | ID Factura | Número de factura |
+| 74 | 1 | Aplica devolución IVA | 1=Sí, 0=No |
+| 75-89 | 15 | Importe gravado básico | Con 2 decimales implícitos |
+| 90-104 | 15 | Importe gravado mínimo | Con 2 decimales implícitos |
+| 105-119 | 15 | Importe devolución IVA | Con 2 decimales implícitos |
+| 120-127 | 8 | Filler | Espacios |
 
 ## Configuración
 
